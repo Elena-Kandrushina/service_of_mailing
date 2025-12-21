@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block title %}Главная страница{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h1 class="mb-4">Сервис управления рассылками</h1>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card text-white bg-primary mb-3">
+                    <div class="card-header">Всего рассылок</div>
+                    <div class="card-body">
+                        <h2 class="card-title">{{ total_mailings }}</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header">Активные рассылки</div>
+                    <div class="card-body">
+                        <h2 class="card-title">{{ active_mailings }}</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card text-white bg-info mb-3">
+                    <div class="card-header">Уникальные получатели</div>
+                    <div class="card-body">
+                        <h2 class="card-title">{{ unique_recipients }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Карточки с изображениями -->
+        <div class="row mt-4 mb-4">
+            <div class="col-md-12">
+                <h3>Возможности сервиса</h3>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <img src="{{ MEDIA_URL }}images/mailing-icon.jpg"
+                    class="card-img-top img-fluid"
+                    alt="Управление рассылками">
+
+                    <div class="card-body">
+                        <h5 class="card-title">Управление рассылками</h5>
+                        <p class="card-text">Создавайте, настраивайте и отслеживайте email-рассылки</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <img src="{{ MEDIA_URL }}images/recipients-icon.png"
+                    class="card-img-top img-fluid"
+                         alt="База получателей">
+                    <div class="card-body">
+                        <h5 class="card-title">База получателей</h5>
+                        <p class="card-text">Управляйте базой получателей рассылок.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <img src="{{ MEDIA_URL }}images/analytics-icon.jpg"
+                    class="card-img-top img-fluid"
+                         alt="Статистика">
+                    <div class="card-body">
+                        <h5 class="card-title">Статистика</h5>
+                        <p class="card-text">Получайте статистику по рассылкам.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Конец карточек с изображениями -->
+
+        <div class="card mt-4">
+            <div class="card-header">
+                <h4>Управление</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'recipient_create' %}" class="btn btn-primary">Добавить получателя</a>
+                            <a href="{% url 'recipient_list' %}" class="btn btn-outline-primary">Список получателей</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'message_create' %}" class="btn btn-success">Создать сообщение</a>
+                            <a href="{% url 'message_list' %}" class="btn btn-outline-success">Список сообщений</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'mailing_create' %}" class="btn btn-info">Создать рассылку</a>
+                            <a href="{% url 'mailing_list' %}" class="btn btn-outline-info">Список рассылок</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

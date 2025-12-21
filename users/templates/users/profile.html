@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}Профиль пользователя{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h4 class="mb-0">👤 Профиль пользователя</h4>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3 text-center mb-3">
+                {% if user.avatar %}
+                    <img src="{{ user.avatar.url }}" class="img-fluid rounded-circle mb-3"
+                         style="max-width: 150px; max-height: 150px;" alt="Аватар">
+                {% else %}
+                    <div class="display-1">
+                        {% if user.is_manager %}👔{% else %}👤{% endif %}
+                    </div>
+                {% endif %}
+                <div class="mt-2">
+                    <span class="badge {% if user.is_manager %}bg-info{% else %}bg-success{% endif %}">
+                        {% if user.is_manager %}Менеджер{% else %}Пользователь{% endif %}
+                    </span>
+                    {% if user.is_blocked %}
+                        <span class="badge bg-danger">Заблокирован</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Имя пользователя:</strong>
+                        <p class="fs-5">{{ user.username }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Email:</strong>
+                        <p class="fs-5">{{ user.email }}</p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Имя:</strong>
+                        <p class="fs-5">{{ user.first_name|default:"Не указано" }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Фамилия:</strong>
+                        <p class="fs-5">{{ user.last_name|default:"Не указано" }}</p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <strong>Телефон:</strong>
+                        <p class="fs-5">{{ user.phone_number|default:"Не указан" }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Страна:</strong>
+                        <p class="fs-5">{{ user.country|default:"Не указана" }}</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong>Дата регистрации:</strong>
+                        <p class="fs-5">{{ user.date_joined|date:"d.m.Y H:i" }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Последний вход:</strong>
+                        <p class="fs-5">{{ user.last_login|date:"d.m.Y H:i"|default:"Еще не входил" }}</p>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <a href="{% url 'users:profile_edit' %}" class="btn btn-primary">✏️ Редактировать профиль</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
