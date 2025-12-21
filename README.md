@@ -46,13 +46,16 @@ service_of_mailing/
 1. Клонируйте репозиторий:
 ```
 git@github.com:Elena-Kandrushina/service_of_mailing.git
+
 ```
 
 2. Установите зависимости:
+
 ```
 poetry install
 ```
 3. Запуск Redis:
+
 ```
 redis-server
 redis-cli
@@ -60,6 +63,7 @@ redis-cli
 ```
 
 4. Запуск проекта после запуска Redis:
+
 ```
 python manage.py runserver
 ```
