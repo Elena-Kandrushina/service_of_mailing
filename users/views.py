@@ -28,7 +28,7 @@ class ManagerRequiredMixin(UserPassesTestMixin):
     """Миксин для проверки, что пользователь - менеджер"""
 
     def test_func(self):
-        return self.request.user.is_authenticated and self.request.user.is_manager()
+        return self.request.user.is_authenticated and self.request.user.is_manager
 
     def handle_no_permission(self):
         messages.error(self.request, "Доступ только для менеджеров")
@@ -39,7 +39,7 @@ class UserRequiredMixin(UserPassesTestMixin):
     """Миксин для проверки, что пользователь - обычный пользователь"""
 
     def test_func(self):
-        return self.request.user.is_authenticated and not self.request.user.is_manager()
+        return self.request.user.is_authenticated and not self.request.user.is_manager
 
     def handle_no_permission(self):
         messages.error(self.request, "Доступ только для пользователей")

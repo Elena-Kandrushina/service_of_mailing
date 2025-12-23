@@ -73,6 +73,7 @@ class User(AbstractUser):
     def __str__(self):
         return f"{self.username} ({self.get_role_display()})"
 
+    @property
     def is_manager(self):
         return self.role == "manager"
 

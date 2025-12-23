@@ -31,6 +31,7 @@ class MailingForm(forms.ModelForm):
         fields = ["start_time", "end_time", "message", "recipients"]
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
 
         self.fields["start_time"].widget = forms.DateTimeInput(
@@ -51,9 +52,12 @@ class MailingForm(forms.ModelForm):
         self.fields["recipients"].widget = forms.SelectMultiple(
             attrs={"class": "form-control", "size": "8", "style": "height: 150px;"}
         )
-
-        self.fields["message"].queryset = Message.objects.all()
-        self.fields["recipients"].queryset = Recipient.objects.all()
+        if user and user.is_manager:
+            self.fields["message"].queryset = Message.objects.filter(owner=user)
+            self.fields["recipients"].queryset = Recipient.objects.filter(owner=user)
+        else:
+            self.fields["message"].queryset = Message.objects.all()
+            self.fields["recipients"].queryset = Recipient.objects.all()
 
         self.fields["message"].empty_label = "Выберите сообщение..."
 

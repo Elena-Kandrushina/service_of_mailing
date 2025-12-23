@@ -17,7 +17,6 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 
 
-@cache_page(60 * 15)
 def home(request):
     """Главная страница со статистикой"""
     now = timezone.now()
@@ -166,7 +165,7 @@ class MailingListView(LoginRequiredMixin, ListView):
     paginate_by = 20
 
     def get_queryset(self):
-        if self.request.user.is_manager():
+        if self.request.user.is_manager:
             queryset = cache.get("mailings_queryset")
             if not queryset:
                 queryset = Mailing.objects.all().order_by("-start_time")
@@ -201,7 +200,7 @@ class MailingCreateView(LoginRequiredMixin, CreateView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-
+        kwargs['user'] = self.request.user
         kwargs["instance"] = self.model(owner=self.request.user)
         return kwargs
 
@@ -236,7 +235,7 @@ class MailingUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-
+        kwargs['user'] = self.request.user
         kwargs["instance"] = self.object
         return kwargs
 
