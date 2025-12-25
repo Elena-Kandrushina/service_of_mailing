@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Статистика{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h4 class="mb-0">📊 Статистика ваших рассылок</h4>
+    </div>
+
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="card border-primary">
+                    <div class="card-body text-center">
+                        <h2 class="text-primary">{{ stats.total_mailings }}</h2>
+                        <p class="text-muted mb-0">Всего рассылок</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card border-success">
+                    <div class="card-body text-center">
+                        <h2 class="text-success">{{ stats.active_mailings }}</h2>
+                        <p class="text-muted mb-0">Активных рассылок</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <div class="card border-info">
+                    <div class="card-body text-center">
+                        <h2 class="text-info">{{ stats.total_attempts }}</h2>
+                        <p class="text-muted mb-0">Всего отправок</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="table-light">
+                    <tr>
+                        <th>Показатель</th>
+                        <th>Значение</th>
+                        <th>Процент</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Успешных отправок</td>
+                        <td>{{ stats.successful_attempts }}</td>
+                        <td>
+                            {% if stats.total_attempts > 0 %}
+                                {{ stats.success_rate }}%
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Неудачных отправок</td>
+                        <td>{{ stats.failed_attempts }}</td>
+                        <td>
+                            {% if stats.total_attempts > 0 %}
+                                {% widthratio stats.failed_attempts stats.total_attempts 100 %}%
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Всего отправок</td>
+                        <td colspan="2">{{ stats.total_attempts }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        {% if stats.total_attempts == 0 %}
+        <div class="alert alert-info">
+            <p class="mb-0">📭 У вас еще нет отправок. Создайте свою первую рассылку!</p>
+        </div>
+        {% endif %}
+
+        <div class="text-center mt-3">
+            <a href="{% url 'mailing_list' %}" class="btn btn-primary me-2">
+                📤 Управление рассылками
+            </a>
+            <a href="{% url 'users:dashboard' %}" class="btn btn-secondary">
+                ← Назад в дашборд
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+<ul class="navbar-nav me-auto">
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'home' %}">Главная</a>
+    </li>
+
+    {% if user.is_authenticated %}
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+            Управление
+        </a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'recipient_list' %}">📋 Получатели</a></li>
+            <li><a class="dropdown-item" href="{% url 'message_list' %}">✉️ Сообщения</a></li>
+            <li><a class="dropdown-item" href="{% url 'mailing_list' %}">📤 Рассылки</a></li>
+        </ul>
+    </li>
+    {% endif %}
+</ul>

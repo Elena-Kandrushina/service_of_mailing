@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Дашборд{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1 class="text-center mb-3">
+        {% if user.is_manager %}👔 Панель менеджера{% else %}📈 Ваш дашборд{% endif %}
+    </h1>
+
+    {% if user.is_manager %}
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value">{{ total_users }}</div>
+            <div class="stat-label">Всего пользователей</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-value">{{ active_users }}</div>
+            <div class="stat-label">Активных пользователей</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-value">{{ blocked_users }}</div>
+            <div class="stat-label">Заблокированных</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-value">{{ total_mailings }}</div>
+            <div class="stat-label">Всего рассылок</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-value">{{ active_mailings }}</div>
+            <div class="stat-label">Активных рассылок</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-value">{{ successful_attempts }}/{{ total_attempts }}</div>
+            <div class="stat-label">Успешных/Всего отправок</div>
+        </div>
+    </div>
+
+    <div class="text-center mt-3">
+        <a href="{% url 'users:user_list' %}" class="btn">👥 Управление пользователями</a>
+    </div>
+
+    {% else %}
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-value">{{ user_mailings_count }}</div>
+            <div class="stat-label">Ваших рассылок</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-value">{{ active_user_mailings }}</div>
+            <div class="stat-label">Активных рассылок</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-value">{{ user_successful_attempts }}/{{ user_total_attempts }}</div>
+            <div class="stat-label">Успешных/Всего отправок</div>
+        </div>
+    </div>
+
+    <div class="text-center mt-3">
+        <a href="{% url 'users:user_statistics' %}" class="btn">📊 Подробная статистика</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

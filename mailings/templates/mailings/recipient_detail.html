@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h1>{{ recipient.full_name }}</h1>
+            <p class="lead">{{ recipient.email }}</p>
+
+            {% if recipient.comment %}
+                <div class="alert alert-info">
+                    {{ recipient.comment }}
+                </div>
+            {% endif %}
+
+            <h4>Рассылки ({{ recipient.mailings.count }})</h4>
+            {% if recipient.mailings.all %}
+                <ul class="list-group">
+                {% for mailing in recipient.mailings.all %}
+                    <li class="list-group-item">
+                        <a href="{% url 'mailing_detail' mailing.pk %}">
+                            {{ mailing.message.subject }}
+                        </a>
+                        <span class="badge bg-secondary float-end">
+                            {{ mailing.status }}
+                        </span>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted">Нет рассылок</p>
+            {% endif %}
+
+            <div class="mt-3">
+                <a href="{% url 'recipient_update' recipient.pk %}" class="btn btn-primary">
+                    Редактировать
+                </a>
+                <a href="{% url 'recipient_list' %}" class="btn btn-secondary">
+                    Назад
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

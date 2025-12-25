@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Удаление рассылки{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 offset-md-3">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <h4 class="mb-0">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    Удаление рассылки
+                </h4>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title text-danger">Вы уверены, что хотите удалить эту рассылку?</h5>
+
+                <div class="alert alert-info">
+                    <div class="d-flex">
+                        <div class="me-3">
+                            <i class="bi bi-send fs-1"></i>
+                        </div>
+                        <div>
+                            <h6>Информация о рассылке:</h6>
+                            <p class="mb-1"><strong>ID:</strong> #{{ object.id }}</p>
+                            <p class="mb-1"><strong>Сообщение:</strong> {{ object.message.subject }}</p>
+                            <p class="mb-1"><strong>Статус:</strong>
+                                <span class="badge bg-{% if object.status == 'Создана' %}info{% elif object.status == 'Запущена' %}success{% else %}secondary{% endif %}">
+                                    {{ object.status }}
+                                </span>
+                            </p>
+                            <p class="mb-1"><strong>Начало:</strong> {{ object.start_time|date:"d.m.Y H:i" }}</p>
+                            <p class="mb-0"><strong>Окончание:</strong> {{ object.end_time|date:"d.m.Y H:i" }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert alert-warning">
+                    <h6 class="alert-heading">
+                        <i class="bi bi-people-fill"></i>
+                        Получатели рассылки: {{ object.recipients.count }}
+                    </h6>
+                    <p class="mb-2">В этой рассылке участвуют следующие получатели:</p>
+                    <ul class="mb-0">
+                        {% for recipient in object.recipients.all|slice:":3" %}
+                        <li>{{ recipient.full_name }} ({{ recipient.email }})</li>
+                        {% endfor %}
+                        {% if object.recipients.count > 3 %}
+                        <li>... и еще {{ object.recipients.count|add:"-3" }} получателей</li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+                {% if object.attempts.count > 0 %}
+                <div class="alert alert-secondary">
+                    <h6 class="alert-heading">
+                        <i class="bi bi-clock-history"></i>
+                        История отправок
+                    </h6>
+                    <p class="mb-0">
+                        У этой рассылки есть <strong>{{ object.attempts.count }}</strong> записей об отправках.
+                        Вся история отправок также будет удалена.
+                    </p>
+                </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash-fill"></i> Да, удалить рассылку
+                        </button>
+                        <a href="{% url 'mailing_detail' object.id %}" class="btn btn-secondary">
+                            <i class="bi bi-x-circle"></i> Отмена
+                        </a>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-muted">
+                <small>
+                    <i class="bi bi-info-circle"></i>
+                    Это действие нельзя отменить. Все данные рассылки будут удалены безвозвратно.
+                </small>
+            </div>
+        </div>
+
+        <div class="mt-3 text-center">
+            <a href="{% url 'mailing_list' %}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-arrow-left"></i> Вернуться к списку рассылок
+            </a>
+            <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-sm">
+                <i class="bi bi-house"></i> На главную
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
